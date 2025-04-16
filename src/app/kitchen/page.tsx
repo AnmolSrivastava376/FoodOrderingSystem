@@ -1,10 +1,11 @@
 'use client';
-import { subscribeToItems } from "@/lib/hooks/itemSubscription";
+import { useRealtimeTable } from "@/lib/hooks/useRealtimeTable";
 import { Item } from "@/lib/models/item";
 
 export default function KitchenPage() {
-    const items = subscribeToItems();
-
+    const items = useRealtimeTable<Item>({
+        table: 'items'
+    });
     return (
         <div className="container">
             <div className="flex p-4 gap-4 flex-wrap">
