@@ -59,11 +59,6 @@ export function useRealtimeTable<T = any>({table,schema='public',filter}:Options
                                 if(filter && !filter(newItem)) {
                                     return prevData;
                                 }
-                                const alreadyExists = prevData.some((item) =>
-                                    (item as any).id === (newItem as any)?.id
-                                );
-                                if (alreadyExists) 
-                                    return prevData;
                                 return [...prevData, newItem];
                             case 'UPDATE':
                                 if(filter && !filter(newItem)) {
