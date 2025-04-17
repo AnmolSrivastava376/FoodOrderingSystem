@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase/supabase";
+import itemService from "../service/itemService";
 
 type SupabaseEvent = 'INSERT' | 'UPDATE' | 'DELETE';
 
@@ -16,18 +17,14 @@ export function useRealtimeTable<T = any>({table,schema='public',filter}:Options
         let mounted = true;
 
         const fetchData = async () => {
-            const { data: initialData, error } = await supabase
-                .from(table)
-                .select('*')
-
-            if (error) {
-                console.error('Error fetching data:', error);
-                return;
-            }
-
-            if (!error && mounted) {
+            try {
+            const initialData = await itemService.fetchAllItems() as T[];
+            if (mounted) {
                 const filteredData = filter ? initialData.filter(filter) : initialData;
-                setData(filteredData as T[]);
+                setData(filteredData);
+            }
+            } catch (error) {
+            console.error('Error fetching data:', error);
             }
         }
 

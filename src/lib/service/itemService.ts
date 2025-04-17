@@ -1,15 +1,21 @@
-import { supabase } from '../supabase/supabase';
-import { Item } from '../models/item';
+import { Item } from "../models/item";
 
-export const fetchAllItems = async (): Promise<Item[]> => {
-    try {
-        const { data, error } = await supabase.from('items').select('*');
-        if (error) {
-            throw error;
-        }
-        return data as Item[];
-    } catch (err) {
-        console.error('Error fetching items:', err);
-        throw err;
+const itemService = {
+    async fetchAllItems(): Promise<Item[]> {
+        const response = await fetch('/api/items');
+        if (!response.ok) 
+            throw new Error('Failed to fetch items');
+        
+        return response.json() as Promise<Item[]>;
+    },
+
+    async fetchItemById(id: number): Promise<Item> {
+        const response = await fetch(`/api/items/${id}`);
+        if (!response.ok) 
+            throw new Error(`Failed to fetch item with id ${id}`);
+        
+        return response.json() as Promise<Item>;
     }
 };
+
+export default itemService;
