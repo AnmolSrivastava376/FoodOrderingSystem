@@ -7,7 +7,7 @@ interface TableHomePageProps {
 
 const TableHomePage: React.FC<TableHomePageProps> = ({ tablenumber }) => {
     return (
-        <div className='w-full h-full flex flex-col items-center bg-[rgb(251,236,213)]'>
+        <div className='w-full h-full flex flex-col items-center bg-white'>
             <Navbar tablenumber={tablenumber} />
         </div>
     );
