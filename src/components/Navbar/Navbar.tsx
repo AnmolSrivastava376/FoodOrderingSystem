@@ -17,7 +17,7 @@ const Navbar: React.FC<NavbarProps> = ({ tablenumber }) => {
     }, []);
 
     return (
-        <div className="flex w-full h-[50px] items-center border-b-[1px] border-[rgb(0,0,0,0.2)] rounded-b-[8px] justify-between px-[12px]">
+        <div className="flex w-full h-[50px] items-center border-b-[1px] border-[rgb(0,0,0,0.2)] rounded-b-[8px] justify-between px-[12px] py-[4px]">
             <div className="flex items-center gap-2">
                 <div className="w-[40px] h-[40px] rounded-[50%] bg-[url('/logo.jpeg')] bg-cover bg-center"></div>
                 <div className="font-[600] text-[18px]">

@@ -42,3 +42,17 @@ body {
   color: var(--foreground);
   font-family: 'Quicksand', sans-serif;
 }
+
+.search-icon::after{
+  content: '';
+  position: absolute;
+  width: 0.5px;
+  height: 100%;
+  background: linear-gradient(white, #a2630b,white);
+  right: 0;
+  top: 0;
+}
+
+.horizontal-line{
+  background: linear-gradient(to right,white,#a2630b,white );
+}
