@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import { IoSearch } from 'react-icons/io5';
+import { FaShoppingCart } from "react-icons/fa";
 import SectionHeader from './SectionHeader';
 import { useRealtimeTable } from '@/lib/hooks/useRealtimeTable';
 import { Item } from '@/lib/models/item';
@@ -25,6 +26,8 @@ const TableHomePage: React.FC<TableHomePageProps> = ({ tablenumber }) => {
         fetchService: categoryService.fetchAllCategories,
     });
 
+    const [cartItems] = useState<number>(1);
+
     return (
         <div className='w-full h-full flex flex-col items-center bg-white max-w-[450px] overflow-x-hidden'>
             <Navbar tablenumber={tablenumber} />
@@ -44,10 +47,19 @@ const TableHomePage: React.FC<TableHomePageProps> = ({ tablenumber }) => {
             <div className='w-full relative max-w-[450px] min-h-[130px] px-4 flex justify-start items-center'>
                 <CategoryCard categories={categories} />
             </div>
-
+            
             {/* Items */}
             <SectionHeader HeaderText="Explore" />
             <ItemCard items={items} />
+
+            <div className='w-[70px] h-[70px] bg-[#fdd8a3] border-[#a2630b] border-[1.5px] rounded-full flex items-center justify-center absolute bottom-[40px] right-[32px]'>
+                <FaShoppingCart fontSize={"30px"} color={"#a2630b"} />
+                {cartItems > 0 &&
+                    <div className='absolute w-[24px] h-[24px] bg-[#38751f] rounded-full flex items-center justify-center text-white font-bold text-[12px] top-[-5px] right-[0px]'>
+                        <div>{cartItems}</div>
+                    </div>
+                }
+            </div>
         </div>
     );
 };
