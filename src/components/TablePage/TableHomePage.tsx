@@ -17,16 +17,12 @@ interface TableHomePageProps {
 const TableHomePage: React.FC<TableHomePageProps> = ({ tablenumber }) => {
     const items = useRealtimeTable<Item>({
         table: 'items',
-        fetchService: {
-            items: itemsService.fetchAllItems,
-        },
+        fetchService: itemsService.fetchAllItems,
     });
 
     const categories = useRealtimeTable<Category>({
-        table: 'categories',
-        fetchService: {
-            categories: categoryService.fetchAllCategories,
-        },
+        table: 'category',
+        fetchService: categoryService.fetchAllCategories,
     });
 
     return (

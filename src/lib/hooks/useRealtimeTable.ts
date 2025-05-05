@@ -7,7 +7,7 @@ interface Options<T> {
     table: string;
     schema?: string;
     filter?: (item: T) => boolean;
-    fetchService?: Record<string, () => Promise<T[]>>;
+    fetchService?: () => Promise<T[]>;
 }
 
 export function useRealtimeTable<T = any>({ table, schema = 'public', filter, fetchService }: Options<T>) {
@@ -18,12 +18,11 @@ export function useRealtimeTable<T = any>({ table, schema = 'public', filter, fe
 
         const fetchData = async () => {
             try {
-                const service = fetchService?.[table];
-                if (!service) {
-                    console.error(`No fetch service found for table: ${table}`);
+                if (!fetchService) {
+                    console.error(`No fetch service provided for table: ${table}`);
                     return;
                 }
-                const initialData = await service() as T[];
+                const initialData = await fetchService() as T[];
                 if (mounted) {
                     const filteredData = filter ? initialData.filter(filter) : initialData;
                     setData(filteredData);
@@ -38,7 +37,7 @@ export function useRealtimeTable<T = any>({ table, schema = 'public', filter, fe
         return () => {
             mounted = false;
         };
-    }, [table, filter]);
+    }, [table, filter, fetchService]);
 
     useEffect(() => {
         const channel = supabase
