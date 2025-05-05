@@ -5,6 +5,10 @@ import SectionHeader from './SectionHeader';
 import { useRealtimeTable } from '@/lib/hooks/useRealtimeTable';
 import { Item } from '@/lib/models/item';
 import ItemCard from './ItemCard';
+import itemsService from "@/lib/service/itemService";
+import { Category } from '@/lib/models/category';
+import categoryService from '@/lib/service/categoryService';
+import CategoryCard from './CategoryCard';
 
 interface TableHomePageProps {
     tablenumber: number;
@@ -12,11 +16,21 @@ interface TableHomePageProps {
 
 const TableHomePage: React.FC<TableHomePageProps> = ({ tablenumber }) => {
     const items = useRealtimeTable<Item>({
-        table: 'items'
+        table: 'items',
+        fetchService: {
+            items: itemsService.fetchAllItems,
+        },
+    });
+
+    const categories = useRealtimeTable<Category>({
+        table: 'categories',
+        fetchService: {
+            categories: categoryService.fetchAllCategories,
+        },
     });
 
     return (
-        <div className='w-full h-full flex flex-col items-center bg-white'>
+        <div className='w-full h-full flex flex-col items-center bg-white max-w-[450px] overflow-x-hidden'>
             <Navbar tablenumber={tablenumber} />
 
             {/* SearchBar */}
@@ -31,7 +45,9 @@ const TableHomePage: React.FC<TableHomePageProps> = ({ tablenumber }) => {
 
             {/* Categories */}
             <SectionHeader HeaderText="Categories" />
-
+            <div className='w-full relative max-w-[450px] min-h-[130px] px-4 flex justify-start items-center'>
+                <CategoryCard categories={categories} />
+            </div>
 
             {/* Items */}
             <SectionHeader HeaderText="Explore" />

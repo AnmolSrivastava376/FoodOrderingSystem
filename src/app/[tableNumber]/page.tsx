@@ -13,15 +13,6 @@ interface PageProps {
 export default function TablePage({ params }: PageProps) {
     const { tableNumber } = use(params);
 
-    useEffect(() => {
-        if (isNaN(Number(tableNumber))) {
-            console.error("Invalid table number");
-        } else {
-            console.log("Valid table number");
-        }
-
-    }, [tableNumber]);
-
     if(!isNaN(Number(tableNumber))) {
         return (
             <div className="flex items-center justify-center w-[100vw] h-[100vh] bg-gray-200">

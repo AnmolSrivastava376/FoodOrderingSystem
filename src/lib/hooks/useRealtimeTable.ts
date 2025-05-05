@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase/supabase";
-import itemService from "../service/itemService";
 
 type SupabaseEvent = 'INSERT' | 'UPDATE' | 'DELETE';
 
@@ -8,9 +7,10 @@ interface Options<T> {
     table: string;
     schema?: string;
     filter?: (item: T) => boolean;
+    fetchService?: Record<string, () => Promise<T[]>>;
 }
 
-export function useRealtimeTable<T = any>({table,schema='public',filter}:Options<T>){
+export function useRealtimeTable<T = any>({ table, schema = 'public', filter, fetchService }: Options<T>) {
     const [data, setData] = useState<T[]>([]);
 
     useEffect(() => {
@@ -18,22 +18,27 @@ export function useRealtimeTable<T = any>({table,schema='public',filter}:Options
 
         const fetchData = async () => {
             try {
-            const initialData = await itemService.fetchAllItems() as T[];
-            if (mounted) {
-                const filteredData = filter ? initialData.filter(filter) : initialData;
-                setData(filteredData);
-            }
+                const service = fetchService?.[table];
+                if (!service) {
+                    console.error(`No fetch service found for table: ${table}`);
+                    return;
+                }
+                const initialData = await service() as T[];
+                if (mounted) {
+                    const filteredData = filter ? initialData.filter(filter) : initialData;
+                    setData(filteredData);
+                }
             } catch (error) {
-            console.error('Error fetching data:', error);
+                console.error('Error fetching data:', error);
             }
-        }
+        };
 
         fetchData();
 
         return () => {
             mounted = false;
         };
-    },[table, filter]);
+    }, [table, filter]);
 
     useEffect(() => {
         const channel = supabase
@@ -51,24 +56,24 @@ export function useRealtimeTable<T = any>({table,schema='public',filter}:Options
                     setData((prevData) => {
                         const newItem = payload.new as T;
                         const oldItem = payload.old as T;
-                        switch(event) {
+                        switch (event) {
                             case 'INSERT':
-                                if(filter && !filter(newItem)) {
+                                if (filter && !filter(newItem)) {
                                     return prevData;
                                 }
                                 return [...prevData, newItem];
                             case 'UPDATE':
-                                if(filter && !filter(newItem)) {
-                                    return prevData.filter((item) => 
+                                if (filter && !filter(newItem)) {
+                                    return prevData.filter((item) =>
                                         (item as any).id !== (oldItem as any)?.id);
                                 }
-                                return prevData.map((item) => 
+                                return prevData.map((item) =>
                                     (item as any).id === (newItem as any)?.id ? newItem : item
                                 );
                             case 'DELETE':
-                                return prevData.filter((item) => 
+                                return prevData.filter((item) =>
                                     (item as any).id !== (oldItem as any)?.id);
-                            default:    
+                            default:
                                 return prevData;
                         }
                     });
@@ -78,8 +83,8 @@ export function useRealtimeTable<T = any>({table,schema='public',filter}:Options
 
         return () => {
             supabase.removeChannel(channel);
-        }
-    }, [table,schema,filter]);
+        };
+    }, [table, schema, filter]);
 
     return data;
 }

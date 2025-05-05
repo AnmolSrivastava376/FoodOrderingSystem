@@ -56,3 +56,7 @@ body {
 .horizontal-line{
   background: linear-gradient(to right,white,#a2630b,white );
 }
+
+::-webkit-scrollbar{
+  display: none;
+}

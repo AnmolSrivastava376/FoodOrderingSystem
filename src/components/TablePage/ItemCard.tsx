@@ -23,7 +23,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ items }) => {
     const [expanded, setExpanded] = useState<number[]>([]);
 
     return (
-        <div className="flex px-4 gap-4 flex-col">
+        <div className="flex px-4 gap-4 flex-col w-full max-w-[450px]">
             {items.map((item: Item) => (
                 item.is_available && (
                     <div

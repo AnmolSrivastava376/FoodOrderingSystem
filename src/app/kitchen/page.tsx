@@ -1,11 +1,15 @@
 'use client';
 import { useRealtimeTable } from "@/lib/hooks/useRealtimeTable";
 import { Item } from "@/lib/models/item";
-
+import itemsService from "@/lib/service/itemService";
 export default function KitchenPage() {
     const items = useRealtimeTable<Item>({
-        table: 'items'
+        table: 'items',
+        fetchService: {
+            items: itemsService.fetchAllItems,
+        },
     });
+
     return (
         <div className="container">
             <div className="flex p-4 gap-4 flex-wrap">
