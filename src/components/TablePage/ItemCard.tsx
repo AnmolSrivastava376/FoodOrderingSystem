@@ -79,6 +79,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ items }) => {
                             </div>
                         </div>
                         <div
+                            draggable={true}
                             className="relative w-[140px] h-[130px] rounded-[12px] flex justify-center"
                             style={{
                                 backgroundImage: `url(${item.image_url})`,
