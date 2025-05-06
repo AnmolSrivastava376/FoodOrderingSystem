@@ -5,9 +5,7 @@ import itemsService from "@/lib/service/itemService";
 export default function KitchenPage() {
     const items = useRealtimeTable<Item>({
         table: 'items',
-        fetchService: {
-            items: itemsService.fetchAllItems,
-        },
+        fetchService: itemsService.fetchAllItems,
     });
 
     return (
