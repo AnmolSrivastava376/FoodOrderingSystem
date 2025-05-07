@@ -27,6 +27,8 @@ const TableHomePage: React.FC<TableHomePageProps> = ({ tablenumber }) => {
   });
 
   const [cartItems, setCartItems] = useState<Item[]>([]);
+  const [isDragging, setIsDragging] = useState(false);
+
   const cartDropRef = useRef<HTMLDivElement>(null);
 
   const handleDropItem = (item: Item) => {
@@ -55,11 +57,8 @@ const TableHomePage: React.FC<TableHomePageProps> = ({ tablenumber }) => {
 
       {/* Items */}
       <SectionHeader HeaderText="Explore" />
-      <ItemCard
-        items={items}
-        dropZoneRef={cartDropRef}
-        onDropItem={handleDropItem}
-      />
+      <ItemCard items={items} dropZoneRef={cartDropRef} onDropItem={handleDropItem} setIsDragging={setIsDragging} />
+
 
       {/* Cart / Drop Zone */}
       {/* If is in dropzone (IsInDropZone) use dropZoneref.current.style to change css */}
