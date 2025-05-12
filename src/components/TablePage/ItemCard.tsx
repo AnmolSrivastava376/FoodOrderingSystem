@@ -7,7 +7,8 @@ interface ItemCardProps {
   items: Item[];
   dropZoneRef: React.RefObject<HTMLDivElement | null>;
   onDropItem: (item: Item) => void;
-  setIsDragging: (dragging: boolean) => void; // ✅ Added prop
+  setIsDragging: (dragging: boolean) => void;
+  onAddItemFly: (item: Item, imageRef: HTMLDivElement) => void;
 }
 
 const ItemCard: React.FC<ItemCardProps> = ({
@@ -15,6 +16,7 @@ const ItemCard: React.FC<ItemCardProps> = ({
   dropZoneRef,
   onDropItem,
   setIsDragging,
+  onAddItemFly,
 }) => {
   const [expanded, setExpanded] = useState<number[]>([]);
   const [draggingItem, setDraggingItem] = useState<Item | null>(null);
@@ -46,7 +48,7 @@ const ItemCard: React.FC<ItemCardProps> = ({
       const touch = e.touches[0];
       setDraggingItem(item);
       setDragPos({ x: touch.clientX, y: touch.clientY });
-      setIsDragging(true); // ✅ Inform parent drag started
+      setIsDragging(true);
     }, 200);
   };
 
@@ -74,7 +76,7 @@ const ItemCard: React.FC<ItemCardProps> = ({
     }
 
     setDraggingItem(null);
-    setIsDragging(false); // ✅ Inform parent drag ended
+    setIsDragging(false);
   };
 
   return (
@@ -98,7 +100,9 @@ const ItemCard: React.FC<ItemCardProps> = ({
                   <div
                     className="w-[18px] h-[18px] bg-no-repeat bg-center bg-cover"
                     style={{
-                      backgroundImage: `url(${item.is_veg ? "veg.png" : "/nonveg.png"})`,
+                      backgroundImage: `url(${
+                        item.is_veg ? "veg.png" : "/nonveg.png"
+                      })`,
                     }}
                   ></div>
                   {item.is_recommended && (
@@ -146,13 +150,23 @@ const ItemCard: React.FC<ItemCardProps> = ({
                 </div>
               </div>
 
-              {/* Right image column (draggable) */}
+              {/* Right image column (draggable + Add button) */}
               <div
-                onTouchStart={(e) => handleTouchStart(e, item)}
                 className="relative w-[140px] h-[130px] rounded-[12px] flex justify-center bg-cover bg-center"
                 style={{ backgroundImage: `url(${item.image_url})` }}
               >
-                <div className="absolute bottom-[-12px] cursor-pointer text-[#a2630e] border bg-[#f7e8d1] w-[100px] rounded-[10px] h-[35px] flex items-center justify-center shadow-inner">
+                <div
+                  onTouchStart={(e) => handleTouchStart(e, item)}
+                  className="absolute top-0 left-0 w-full h-full"
+                ></div>
+
+                <div
+                  className="absolute bottom-[-12px] cursor-pointer text-[#a2630e] border bg-[#f7e8d1] w-[100px] rounded-[10px] h-[35px] flex items-center justify-center shadow-inner"
+                  onClick={(e) => {
+                    const target = e.currentTarget.parentElement;
+                    if (target) onAddItemFly(item, target as HTMLDivElement);
+                  }}
+                >
                   <span className="text-[14px] font-semibold">Add Item</span>
                 </div>
               </div>
@@ -167,12 +181,11 @@ const ItemCard: React.FC<ItemCardProps> = ({
         <div
           className="fixed w-[100px] z-[999] h-[90px] rounded-[12px] flex justify-center bg-cover bg-center pointer-events-none"
           style={{
-            top: dragPos.y-50,
+            top: dragPos.y - 50,
             left: dragPos.x - 45,
-            backgroundImage: `url(${draggingItem.image_url})`
+            backgroundImage: `url(${draggingItem.image_url})`,
           }}
-        >
-        </div>
+        />
       )}
     </div>
   );
