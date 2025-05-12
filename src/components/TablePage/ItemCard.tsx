@@ -165,16 +165,13 @@ const ItemCard: React.FC<ItemCardProps> = ({
       {/* Floating drag copy */}
       {draggingItem && (
         <div
-          className="fixed w-[180px] bg-white border border-black rounded p-2 z-[999] shadow-lg pointer-events-none"
+          className="fixed w-[70px] z-[999] h-[65px] rounded-[12px] flex justify-center bg-cover bg-center pointer-events-none"
           style={{
-            top: dragPos.y - 30,
-            left: dragPos.x - 90,
+            top: dragPos.y-35,
+            left: dragPos.x - 32.5,
+            backgroundImage: `url(${draggingItem.image_url})`
           }}
         >
-          <div className="text-[14px] font-bold">{draggingItem.name}</div>
-          <div className="text-[12px] text-gray-500">
-            &#x20B9;{draggingItem.price}
-          </div>
         </div>
       )}
     </div>

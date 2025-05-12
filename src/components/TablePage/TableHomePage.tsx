@@ -61,12 +61,13 @@ const TableHomePage: React.FC<TableHomePageProps> = ({ tablenumber }) => {
 
 
       {/* Cart / Drop Zone */}
-      {/* If is in dropzone (IsInDropZone) use dropZoneref.current.style to change css */}
-      <div
-        ref={cartDropRef}
-        className='w-[70px] h-[70px] bg-[#fdd8a3] border-[#a2630b] border-[1.5px] rounded-full flex items-center justify-center fixed bottom-[40px] right-[32px]'
-      >
-        <FaShoppingCart fontSize={"30px"} color={"#a2630b"} />
+    <div
+      ref={cartDropRef}
+      className={`${
+        isDragging ? 'w-[90px]' : 'w-[70px]'
+      } aspect-square bg-[#fdd8a3] border-[#a2630b] border-[1.5px] rounded-full flex items-center justify-center fixed bottom-[40px] right-[32px] transition-all duration-300`}
+    >
+      <FaShoppingCart fontSize={"30px"} color={"#a2630b"} />
         {cartItems.length > 0 &&
           <div className='absolute w-[24px] h-[24px] bg-[#38751f] rounded-full flex items-center justify-center text-white font-bold text-[12px] top-[-5px] right-[0px]'>
             <div>{cartItems.length}</div>
