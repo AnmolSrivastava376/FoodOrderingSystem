@@ -46,12 +46,12 @@ const TableHomePage: React.FC<TableHomePageProps> = ({ tablenumber }) => {
 
         // Physics Variables
         const initialVelocity = 8; // Slower initial velocity (adjust this for overall speed control)
-        const upwardAcceleration = -2; // Upward acceleration (a = -10px/sec²)
-        const downwardAcceleration = 2; // Downward acceleration due to gravity (a = 10px/sec²)
+        const upwardAcceleration = -1; // Upward acceleration (a = -10px/sec²)
+        const downwardAcceleration = 1// Downward acceleration due to gravity (a = 10px/sec²)
 
         let velocity = initialVelocity; // Current velocity for upward motion
         let positionY = sourceRect.top; // Initial position (start at the source position)
-        let positionX = sourceRect.left; // Initial horizontal position
+        let positionX = sourceRect.left + 30; // Initial horizontal position
         let isMovingUp = true; // Flag to check if the item is still moving up
         let rotation = 0;
         // Time tracking (we'll use requestAnimationFrame to simulate continuous motion)
@@ -89,7 +89,7 @@ const TableHomePage: React.FC<TableHomePageProps> = ({ tablenumber }) => {
             );
 
             // Use vertical progress to calculate horizontal offset
-            const currentDeltaX = deltaX * verticalProgress * 4;
+            const currentDeltaX = deltaX * verticalProgress * 2;
 
             if (isMovingUp) {
                 // Update position and velocity for upward motion (until it reaches peak)
