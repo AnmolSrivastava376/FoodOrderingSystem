@@ -165,10 +165,10 @@ const ItemCard: React.FC<ItemCardProps> = ({
       {/* Floating drag copy */}
       {draggingItem && (
         <div
-          className="fixed w-[70px] z-[999] h-[65px] rounded-[12px] flex justify-center bg-cover bg-center pointer-events-none"
+          className="fixed w-[100px] z-[999] h-[90px] rounded-[12px] flex justify-center bg-cover bg-center pointer-events-none"
           style={{
-            top: dragPos.y-35,
-            left: dragPos.x - 32.5,
+            top: dragPos.y-50,
+            left: dragPos.x - 45,
             backgroundImage: `url(${draggingItem.image_url})`
           }}
         >
