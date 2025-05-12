@@ -10,7 +10,6 @@ import { Category } from "@/lib/models/category";
 import categoryService from "@/lib/service/categoryService";
 import ItemCard from "./ItemCard";
 import CategoryCard from "./CategoryCard";
-import { init } from "next/dist/compiled/webpack/webpack";
 
 interface TableHomePageProps {
     tablenumber: number;
@@ -46,9 +45,9 @@ const TableHomePage: React.FC<TableHomePageProps> = ({ tablenumber }) => {
         const deltaX = targetRect.left + targetRect.width / 2 - (sourceRect.left + sourceRect.width / 2);
 
         // Physics Variables
-        const initialVelocity = 15; // Slower initial velocity (adjust this for overall speed control)
-        const upwardAcceleration = -3; // Upward acceleration (a = -10px/sec²)
-        const downwardAcceleration = 3; // Downward acceleration due to gravity (a = 10px/sec²)
+        const initialVelocity = 8; // Slower initial velocity (adjust this for overall speed control)
+        const upwardAcceleration = -2; // Upward acceleration (a = -10px/sec²)
+        const downwardAcceleration = 2; // Downward acceleration due to gravity (a = 10px/sec²)
 
         let velocity = initialVelocity; // Current velocity for upward motion
         let positionY = sourceRect.top; // Initial position (start at the source position)
