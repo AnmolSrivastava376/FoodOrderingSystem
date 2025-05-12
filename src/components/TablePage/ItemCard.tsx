@@ -49,7 +49,7 @@ const ItemCard: React.FC<ItemCardProps> = ({
       setDraggingItem(item);
       setDragPos({ x: touch.clientX, y: touch.clientY });
       setIsDragging(true);
-    }, 1000);
+    }, 750);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
